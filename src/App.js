@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Provider } from "react-redux";
+import { ThemeProvider } from "@emotion/react";
 
-function App() {
+import theme from "common/theme";
+import store from "common/store";
+import Layout from "common/layout";
+
+import Analytics from "components/analytics";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Layout>
+          <Analytics />
+        </Layout>
+      </ThemeProvider>
+    </Provider>
   );
-}
+};
 
 export default App;
