@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-import { Button } from "common/ui";
-import { ReactComponent as IconCalender } from "common/icons/calendar.svg";
+import { Heading } from "./styles";
+import Header from "./components/header";
 
-const Analytics = props => {
+const Analytics = (props) => {
   return (
     <div>
-      <Button variant="outline" icon={<IconCalender />}>Date</Button>
+      <Heading>Analytics</Heading>
+      <Header />
     </div>
   );
 };

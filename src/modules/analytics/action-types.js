@@ -1,0 +1,2 @@
+export const SET_DATE_RANGE = "SET_DATE_RANGE";
+export const RESET_DATE_RANGE = "RESET_DATE_RANGE";

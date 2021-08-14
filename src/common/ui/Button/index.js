@@ -7,7 +7,7 @@ const Button = forwardRef(
     return (
       <StyledButton variant={variant} size={size} ref={ref} {...rest}>
         {icon}
-        {typeof children === "string" ? <span>{children}</span> : children}
+        <span>{children}</span>
       </StyledButton>
     );
   }
