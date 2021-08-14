@@ -10,20 +10,12 @@ const determineBg = ({ theme, variant }) => {
       &:active, &:hover {
         border-color: ${theme.palette.primary};
       }
-
-      svg {
-        fill: ${theme.palette.primary};
-      }
     `;
   } else {
     return `
       background-color: ${theme.palette.primary};
       color: #FFFFFF;
       border-color: ${theme.palette.primary};
-
-      svg {
-        fill: #FFFFFF;
-      }
     `;
   }
 };
@@ -54,20 +46,14 @@ const StyledButton = styled.button`
 
   svg {
     margin-right: 6px;
-    height: 1em;
-    width: 1em;
   }
 
   &:disabled {
-    background-color: ${theme.palette.grey["200"]};
+    background-color: ${({ theme }) => theme.palette.grey["200"]};
     cursor: not-allowed;
     pointer-events: none;
-    border-color: ${theme.palette.grey["300"]};
-    color: ${theme.palette.black["200"]};
-
-    svg {
-      fill: ${theme.palette.black["200"]};
-    }
+    border-color: ${({ theme }) => theme.palette.grey["300"]};
+    color: ${({ theme }) => theme.palette.black["200"]};
   }
 `;
 

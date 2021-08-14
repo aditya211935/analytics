@@ -1,9 +1,14 @@
 import React from "react";
 
-import { Container } from "./styles";
+import { Container, SidebarContainer, Body } from "./styles";
 
 const Layout = ({ children }) => {
-  return <Container>{children}</Container>;
+  return (
+    <Container>
+      <SidebarContainer />
+      <Body>{children}</Body>
+    </Container>
+  );
 };
 
 export default Layout;

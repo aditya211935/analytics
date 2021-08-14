@@ -6,7 +6,7 @@ import theme from "common/theme";
 import store from "common/store";
 import Layout from "common/layout";
 
-import Analytics from "components/analytics";
+import Analytics from "modules/analytics";
 
 const App = () => {
   return (

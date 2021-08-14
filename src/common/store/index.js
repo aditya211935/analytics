@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-import { analyticsReducer } from "components/analytics/reducer";
+import { analyticsReducer } from "modules/analytics/reducer";
 
 const reducer = combineReducers({
   analytics: analyticsReducer,
