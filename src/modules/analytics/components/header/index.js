@@ -9,11 +9,12 @@ import { ReactComponent as IconSettings } from "common/icons/settings.svg";
 import { formatDate } from "common/utils";
 
 import DateMenu from "./components/date-menu";
+import SettingsCard from "./components/settings-card";
 
-const Header = (props) => {
+const Header = props => {
   const [isDateTooltipOpen, setDateTooltip] = useState(false);
   const [isSettingsCardOpen, setSettingsCard] = useState(false);
-  const { fromDate, toDate } = useSelector((state) => ({
+  const { fromDate, toDate } = useSelector(state => ({
     fromDate: state.analytics.dateRange.fromDate,
     toDate: state.analytics.dateRange.toDate,
   }));
@@ -37,10 +38,15 @@ const Header = (props) => {
             {formatDate(fromDate, false)} - {formatDate(toDate, true)}
           </StyledButton>
         </Tooltip>
-        <StyledButton variant="outline" icon={<IconSettings />}>
+        <StyledButton
+          variant="outline"
+          icon={<IconSettings />}
+          onClick={handleSettingsCard}
+        >
           Settings
         </StyledButton>
       </ButtonContainer>
+      {isSettingsCardOpen && <SettingsCard handleClose={handleSettingsCard} />}
     </div>
   );
 };
