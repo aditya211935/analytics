@@ -1,6 +1,7 @@
 export const URL_KEYS = {
   DATE_RANGE: "dateRange",
   TABLE_POSITION_PROPS: "tablePositionProps",
+  TABLE_FILTERS: "tableFilters",
 };
 
 export const TABLE_KEYS = {
@@ -8,7 +9,7 @@ export const TABLE_KEYS = {
   APP_ID: "app_id",
   REQUESTS: "requests",
   RESPONSES: "responses",
-  IMPRESSION: "impression",
+  IMPRESSION: "impressions",
   CLICKS: "clicks",
   REVENUE: "revenue",
   FILL_RATE: "fill_rate",

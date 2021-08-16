@@ -1,16 +1,12 @@
 import { storeObjectInUrl } from "common/utils";
-import {
-  SET_DATE_RANGE,
-  RESET_DATE_RANGE,
-  SET_TABLE_POSITION_PROPS,
-} from "./action-types";
+import { SET_DATE_RANGE, RESET_DATE_RANGE, SET_TABLE_POSITION_PROPS, SET_TABLE_FILTERS } from "./action-types";
 import { URL_KEYS } from "./constants";
 
 const saveAnalyticsStateInUrl = () => async (dispatch, getState) => {
   const state = await getState();
   const { analytics } = state;
   var stateToStoreInUrl = {};
-  Object.values(URL_KEYS).forEach(key => {
+  Object.values(URL_KEYS).forEach((key) => {
     stateToStoreInUrl[key] = analytics[key];
   });
   storeObjectInUrl(stateToStoreInUrl);
@@ -18,17 +14,17 @@ const saveAnalyticsStateInUrl = () => async (dispatch, getState) => {
 
 const setDateRange =
   ({ fromDate, toDate }) =>
-  async dispatch => {
+  async (dispatch) => {
     dispatch({ type: SET_DATE_RANGE, payload: { fromDate, toDate } });
     dispatch(saveAnalyticsStateInUrl());
   };
 
-const resetDateRange = () => async dispatch => {
+const resetDateRange = () => async (dispatch) => {
   dispatch({ type: RESET_DATE_RANGE });
   dispatch(saveAnalyticsStateInUrl());
 };
 
-const setTablePositionProps = newTablePositionProps => async dispatch => {
+const setTablePositionProps = (newTablePositionProps) => async (dispatch) => {
   dispatch({
     type: SET_TABLE_POSITION_PROPS,
     payload: newTablePositionProps,
@@ -36,4 +32,9 @@ const setTablePositionProps = newTablePositionProps => async dispatch => {
   dispatch(saveAnalyticsStateInUrl());
 };
 
-export { setDateRange, resetDateRange, setTablePositionProps };
+const setTableFilters = (newTableFilters) => async (dispatch) => {
+  dispatch({ type: SET_TABLE_FILTERS, payload: newTableFilters });
+  dispatch(saveAnalyticsStateInUrl());
+};
+
+export { setDateRange, resetDateRange, setTablePositionProps, setTableFilters };

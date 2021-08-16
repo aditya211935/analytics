@@ -7,7 +7,7 @@ const ColumnTag = ({ id, index, moveColumn, children, ...props }) => {
   const ref = useRef(null);
   const [{ handlerId }, drop] = useDrop({
     accept: "columnTag",
-    collect: monitor => {
+    collect: (monitor) => {
       return {
         handlerId: monitor.getHandlerId(),
       };
@@ -16,21 +16,17 @@ const ColumnTag = ({ id, index, moveColumn, children, ...props }) => {
       if (!ref.current) {
         return;
       }
-      
+
       const dragIndex = item.index;
       const hoverIndex = index;
-    
+
       if (dragIndex === hoverIndex) {
         return;
       }
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
-      if (
-        Math.abs(monitor.getClientOffset().x - hoverBoundingRect.left) >
-        hoverBoundingRect.width / 1.8
-      )
-        return;
+      if (Math.abs(monitor.getClientOffset().x - hoverBoundingRect.left) > hoverBoundingRect.width / 1.8) return;
 
       moveColumn(dragIndex, hoverIndex);
       item.index = hoverIndex;
@@ -42,19 +38,14 @@ const ColumnTag = ({ id, index, moveColumn, children, ...props }) => {
     item: () => {
       return { index };
     },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
   drag(drop(ref));
   return (
-    <StyledColumnTag
-      ref={ref}
-      isDragging={isDragging}
-      data-handler-id={handlerId}
-      {...props}
-    >
+    <StyledColumnTag ref={ref} isDragging={isDragging} data-handler-id={handlerId} {...props}>
       {children}
     </StyledColumnTag>
   );

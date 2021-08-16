@@ -6,7 +6,7 @@ const determineDimensions = ({ size = "md" }) => {
       return `
 			height: 32px;
 			font-size: 12px;
-      padding: 0 4px;
+      padding: 0 8px;
 		`;
     default:
       return `
@@ -20,6 +20,7 @@ const determineDimensions = ({ size = "md" }) => {
 const InputStyled = styled.input`
   outline: none;
   font-family: "Lato", sans-serif;
+  box-sizing: border-box;
   ${determineDimensions}
   ${({ block }) => {
     return block ? `width: 100%;` : "";

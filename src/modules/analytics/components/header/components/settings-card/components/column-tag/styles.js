@@ -14,12 +14,15 @@ const StyledColumnTag = styled.div`
   cursor: pointer;
 
   ${({ isDragging }) => (isDragging ? `opacity: 0.2;` : ``)}
-  ${({ theme, isSelected }) => isSelected ? `
+  ${({ theme, isSelected }) =>
+    isSelected
+      ? `
     border-left-color: ${theme.palette.primary};
     border-left-width: 4px;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
-  ` : ""}
+  `
+      : ""}
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     grid-column: span 4;

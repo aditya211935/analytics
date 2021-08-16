@@ -5,7 +5,6 @@ import "tippy.js/dist/tippy.css";
 
 const StyledTooltip = styled(Tippy)`
   background-color: transparent;
-
   .tippy-content {
     background-color: #ffffff;
     border-radius: 2px;

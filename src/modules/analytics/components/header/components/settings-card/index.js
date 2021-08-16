@@ -14,12 +14,8 @@ import { setTablePositionProps } from "modules/analytics/actions";
 
 const SettingsCard = ({ handleClose }) => {
   const dispatch = useDispatch();
-  const initialTablePositionProps = useSelector(
-    state => state.analytics.tablePositionProps
-  );
-  const [localTablePositionProps, setLocalTablePositionProps] = useState(
-    initialTablePositionProps
-  );
+  const initialTablePositionProps = useSelector((state) => state.analytics.tablePositionProps);
+  const [localTablePositionProps, setLocalTablePositionProps] = useState(initialTablePositionProps);
 
   // Unnecessary for now because SettingsCard is the
   // only component that can change dateRange
@@ -29,7 +25,7 @@ const SettingsCard = ({ handleClose }) => {
 
   const moveColumn = useCallback(
     (dragIndex, hoverIndex) => {
-      setLocalTablePositionProps(prevLocalTablePositionProps => {
+      setLocalTablePositionProps((prevLocalTablePositionProps) => {
         var newLocalTablePositionProps = [...prevLocalTablePositionProps];
         const [itemToMove] = newLocalTablePositionProps.splice(dragIndex, 1);
         newLocalTablePositionProps.splice(hoverIndex, 0, itemToMove);
@@ -40,9 +36,9 @@ const SettingsCard = ({ handleClose }) => {
   );
 
   const toggleColumnVisibility = useCallback(
-    key => {
-      setLocalTablePositionProps(prevLocalTablePositionProps =>
-        prevLocalTablePositionProps.map(item => {
+    (key) => {
+      setLocalTablePositionProps((prevLocalTablePositionProps) =>
+        prevLocalTablePositionProps.map((item) => {
           if (item.key === key) return { ...item, visible: !item.visible };
           else return item;
         })

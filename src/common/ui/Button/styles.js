@@ -75,7 +75,7 @@ const StyledButton = styled.button`
     color: ${({ theme }) => theme.palette.black["200"]};
   }
 
-  ${({ variant }) => (variant === "ghost" ? `font-weight: 700` : "")}
+  ${({ variant }) => (variant === "ghost" ? `font-weight: 700;` : "")}
 `;
 
 export { StyledButton };
