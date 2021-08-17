@@ -19,7 +19,6 @@ const Table = ({
 }) => {
   const [sortColumn, setSortColumn] = useState(initialSortColumn);
   const [sortDirection, setSortDirection] = useState(initialSortDirection);
-
   const processedDataSource = useMemo(() => {
     var filteredDataSource = dataSource.filter((record) => {
       return columns.reduce((acc, column) => {

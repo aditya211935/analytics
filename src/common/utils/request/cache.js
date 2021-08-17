@@ -26,7 +26,7 @@ function Cache(maxSize = 10, valid = 10) {
     if (!(response instanceof Response)) {
       throw new Error("response provided to set function is not an instance of Response.");
     }
-    if (this.size >= maxSize) this.clear();
+    if (this.size() >= maxSize) this.clear();
     this.cache[response.url] = {
       response,
       expiry: new Date().getTime() + (valid || this.defaultValid) * 1000,
@@ -37,7 +37,7 @@ function Cache(maxSize = 10, valid = 10) {
     if (this.exists(url) === false) return undefined;
     var item = this.cache[url];
     if (isExpired(item.expiry)) return undefined;
-    return item.response;
+    return item.response.clone();
   };
 
   this.size = function () {

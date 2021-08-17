@@ -1,10 +1,15 @@
 import { storeObjectInUrl } from "common/utils/helpers";
+import request from "common/utils/request";
 import {
   SET_DATE_RANGE,
   RESET_DATE_RANGE,
   SET_TABLE_POSITION_PROPS,
   SET_TABLE_FILTERS,
+  SET_LOADING_REPORTS,
+  SET_REPORTS,
+  SET_ALL_APPS,
 } from "./action-types";
+import { nanoid } from "nanoid";
 import { URL_KEYS } from "./constants";
 
 const saveAnalyticsStateInUrl = () => async (dispatch, getState) => {
@@ -45,11 +50,48 @@ const setTableFilters = (newTableFilters) => async (dispatch) => {
 const fetchReports =
   ({ fromDate, toDate }) =>
   async (dispatch) => {
+    try {
+      dispatch({ type: SET_LOADING_REPORTS, payload: true });
 
+      var response = await request(`report?startDate=${fromDate}&endDate=${toDate}`);
+      if (!response.ok) throw new Error("Error occured: Status", response.status);
+      var parsedJson = await response.json();
+
+      /**
+       * using nanoid for generating a unique id for each report.
+       * Ideally, backend should send a unique id as per db table's
+       * row. We need this id for setting key in <tr>.
+       * Array index cannot be used to set key as data can be fetched
+       * again if the dates change.
+       */
+      dispatch({
+        type: SET_REPORTS,
+        payload: parsedJson.data.map((item) => ({ id: nanoid(), ...item })),
+      });
+      dispatch({ type: SET_LOADING_REPORTS, payload: false });
+    } catch (err) {
+      dispatch({ type: SET_LOADING_REPORTS, payload: false });
+      console.error("Couldn't fetch reports: ", err);
+    }
   };
 
-const fetchApps = () => async dispatch => {
+const fetchAllApps = () => async (dispatch) => {
+  try {
+    var response = await request("apps");
+    if (!response.ok) throw new Error("Error occured: Status", response.status);
+    var parsedJson = await response.json();
 
-}
+    dispatch({ type: SET_ALL_APPS, payload: parsedJson.data });
+  } catch (err) {
+    console.error("Couldn't fetch apps: ", err);
+  }
+};
 
-export { setDateRange, resetDateRange, setTablePositionProps, setTableFilters };
+export {
+  setDateRange,
+  resetDateRange,
+  setTablePositionProps,
+  setTableFilters,
+  fetchReports,
+  fetchAllApps,
+};

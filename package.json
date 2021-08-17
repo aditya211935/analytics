@@ -6,6 +6,7 @@
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@tippyjs/react": "^4.2.5",
+    "nanoid": "^3.1.25",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
     "react-dnd": "^14.0.3",

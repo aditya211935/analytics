@@ -20,14 +20,14 @@ const apiBaseUrlWithVersion = `${apiBaseUrl}/${apiVersion}/dummy/`;
  * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#freshness
  */
 const request = async (url, init, prependBaseUrl = true) => {
-  var cachedResponse = cacheInst.get(url);
-  if (cachedResponse) return wrapInPromise(cachedResponse);
   var newUrl = prependBaseUrl ? apiBaseUrlWithVersion + url : url;
+  var cachedResponse = cacheInst.get(newUrl);
+  if (cachedResponse) return wrapInPromise(cachedResponse);
   return fetch(newUrl, init).then(async (response) => {
     if (response.ok) {
       var parsedJson = await response.clone().json();
       if (parsedJson?.cache_time > 0) {
-        cacheInst.set(response, data.cache_time);
+        cacheInst.set(response.clone(), parsedJson.cache_time);
       }
     }
     return response;

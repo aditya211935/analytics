@@ -32,7 +32,7 @@ const Header = (props) => {
           onClickOutside={handleDateTooltip}
         >
           <StyledButton variant="outline" icon={<IconCalender />} onClick={handleDateTooltip}>
-            {formatDate(fromDate, false)} - {formatDate(toDate, true)}
+            {formatDate(fromDate, true)} - {formatDate(toDate, true)}
           </StyledButton>
         </Tooltip>
         <StyledButton variant="outline" icon={<IconSettings />} onClick={handleSettingsCard}>

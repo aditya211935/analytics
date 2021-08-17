@@ -19,22 +19,25 @@ import { HeaderContainer, TableContainer } from "./styles";
 import { setTableFilters } from "modules/analytics/actions";
 import FilterTooltip from "./components/filter-tooltip";
 import FilterAppTooltip from "./components/filter-app-tooltip";
+import EmptyCard from "./components/empty-card";
 
 const ReportsTable = (props) => {
   const dispatch = useDispatch();
-  const { tableFilters, tablePositionProps, reportsList, allAppsList } = useSelector((state) => ({
-    tableFilters: state.analytics.tableFilters,
-    tablePositionProps: state.analytics.tablePositionProps,
-    reportsList: state.analytics.reportsList,
-    allAppsList: state.analytics.allAppsList,
-  }));
+  const { tableFilters, tablePositionProps, reportsList, allAppsList, loadingReports } =
+    useSelector((state) => ({
+      tableFilters: state.analytics.tableFilters,
+      tablePositionProps: state.analytics.tablePositionProps,
+      reportsList: state.analytics.reportsList,
+      allAppsList: state.analytics.allAppsList,
+      loadingReports: state.analytics.loadingReports,
+    }));
 
   const columnsObject = useMemo(() => {
     const getAppName = (appId) => {
       return allAppsList.find((app) => app.app_id === appId)?.app_name || "";
     };
     const getPercentage = (num, den) => {
-      return (parseFloat(num) / parseFloat(den)) * 100.0;
+      return (parseFloat(num) / parseFloat(den)) * 100.0 || 0;
     };
     return {
       [TABLE_KEYS.DATE]: {
@@ -52,11 +55,16 @@ const ReportsTable = (props) => {
               new Date(record[TABLE_KEYS.DATE]).setHours(0, 0, 0, 0).toString()
             )
           ).length;
-          var minDate = records.reduce((acc, curr) =>
-            isDateBefore(acc[TABLE_KEYS.DATE], curr[TABLE_KEYS.DATE]) ? acc : curr
+          /**
+           * +-(8640000000000000) is max/min value for date
+           */
+          var minDate = records.reduce(
+            (acc, curr) => (isDateBefore(acc[TABLE_KEYS.DATE], curr[TABLE_KEYS.DATE]) ? acc : curr),
+            8640000000000000
           )[TABLE_KEYS.DATE];
-          var maxDate = records.reduce((acc, curr) =>
-            isDateAfter(acc[TABLE_KEYS.DATE], curr[TABLE_KEYS.DATE]) ? acc : curr
+          var maxDate = records.reduce(
+            (acc, curr) => (isDateAfter(acc[TABLE_KEYS.DATE], curr[TABLE_KEYS.DATE]) ? acc : curr),
+            -8640000000000000
           )[TABLE_KEYS.DATE];
 
           var minValue = 0;
@@ -179,15 +187,16 @@ const ReportsTable = (props) => {
         renderCell: (record, index) => formatNumber(record[TABLE_KEYS.REQUESTS], "integer"),
         renderHeader: (filteredRecords, records) => {
           var aggregatedValue = filteredRecords.reduce(
-            (acc, curr) => acc + parseInt(curr[TABLE_KEYS.REQUESTS]),
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.REQUESTS]) || 0),
             0
           );
           var minValue = records.reduce(
-            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.REQUESTS])),
+            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.REQUESTS]) || 0),
             Infinity
           );
+          minValue = isFinite(minValue) ? minValue : 0;
           var maxValue = records.reduce(
-            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.REQUESTS])),
+            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.REQUESTS]) || 0),
             0
           );
           var currentMinValue = tableFilters?.[TABLE_KEYS.REQUESTS]?.min ?? minValue;
@@ -236,15 +245,16 @@ const ReportsTable = (props) => {
         renderCell: (record, index) => formatNumber(record[TABLE_KEYS.RESPONSES], "integer"),
         renderHeader: (filteredRecords, records) => {
           var aggregatedValue = filteredRecords.reduce(
-            (acc, curr) => acc + parseInt(curr[TABLE_KEYS.RESPONSES]),
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.RESPONSES]) || 0),
             0
           );
           var minValue = records.reduce(
-            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.RESPONSES])),
+            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.RESPONSES]) || 0),
             Infinity
           );
+          minValue = isFinite(minValue) ? minValue : 0;
           var maxValue = records.reduce(
-            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.RESPONSES])),
+            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.RESPONSES]) || 0),
             0
           );
           var currentMinValue = tableFilters?.[TABLE_KEYS.RESPONSES]?.min ?? minValue;
@@ -293,15 +303,16 @@ const ReportsTable = (props) => {
         renderCell: (record, index) => formatNumber(record[TABLE_KEYS.IMPRESSION], "integer"),
         renderHeader: (filteredRecords, records) => {
           var aggregatedValue = filteredRecords.reduce(
-            (acc, curr) => acc + parseInt(curr[TABLE_KEYS.IMPRESSION]),
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.IMPRESSION]) || 0),
             0
           );
           var minValue = records.reduce(
-            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.IMPRESSION])),
+            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.IMPRESSION]) || 0),
             Infinity
           );
+          minValue = isFinite(minValue) ? minValue : 0;
           var maxValue = records.reduce(
-            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.IMPRESSION])),
+            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.IMPRESSION]) || 0),
             0
           );
           var currentMinValue = tableFilters?.[TABLE_KEYS.IMPRESSION]?.min ?? minValue;
@@ -350,15 +361,16 @@ const ReportsTable = (props) => {
         renderCell: (record, index) => formatNumber(record[TABLE_KEYS.CLICKS], "integer"),
         renderHeader: (filteredRecords, records) => {
           var aggregatedValue = filteredRecords.reduce(
-            (acc, curr) => acc + parseInt(curr[TABLE_KEYS.CLICKS]),
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.CLICKS]) || 0),
             0
           );
           var minValue = records.reduce(
-            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.CLICKS])),
+            (acc, curr) => Math.min(acc, parseInt(curr[TABLE_KEYS.CLICKS]) || 0),
             Infinity
           );
+          minValue = isFinite(minValue) ? minValue : 0;
           var maxValue = records.reduce(
-            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.CLICKS])),
+            (acc, curr) => Math.max(acc, parseInt(curr[TABLE_KEYS.CLICKS]) || 0),
             0
           );
           var currentMinValue = tableFilters?.[TABLE_KEYS.CLICKS]?.min ?? minValue;
@@ -403,7 +415,7 @@ const ReportsTable = (props) => {
           return isValueWithinRange(
             min,
             max,
-            parseFloat(record[TABLE_KEYS.REVENUE]).toFixed(2),
+            (parseFloat(record[TABLE_KEYS.REVENUE]) || 0).toFixed(2),
             "float"
           );
         },
@@ -413,14 +425,16 @@ const ReportsTable = (props) => {
           "$" + formatNumber(parseFloat(record[TABLE_KEYS.REVENUE]), "float"),
         renderHeader: (filteredRecords, records) => {
           var aggregatedValue = filteredRecords.reduce(
-            (acc, curr) => acc + parseFloat(curr[TABLE_KEYS.REVENUE]),
+            (acc, curr) => acc + (parseFloat(curr[TABLE_KEYS.REVENUE]) || 0),
             0
           );
-          var minValue = records
-            .reduce((acc, curr) => Math.min(acc, parseFloat(curr[TABLE_KEYS.REVENUE])), Infinity)
-            .toFixed(2);
+          var minValue = records.reduce(
+            (acc, curr) => Math.min(acc, parseFloat(curr[TABLE_KEYS.REVENUE]) || 0),
+            Infinity
+          );
+          minValue = isFinite(minValue) ? minValue.toFixed(2) : 0;
           var maxValue = records
-            .reduce((acc, curr) => Math.max(acc, parseFloat(curr[TABLE_KEYS.REVENUE])), 0)
+            .reduce((acc, curr) => Math.max(acc, parseFloat(curr[TABLE_KEYS.REVENUE]) || 0), 0)
             .toFixed(2);
           var currentMinValue = tableFilters?.[TABLE_KEYS.REVENUE]?.min ?? minValue;
           var currentMaxValue = tableFilters?.[TABLE_KEYS.REVENUE]?.max ?? maxValue;
@@ -455,7 +469,7 @@ const ReportsTable = (props) => {
                 resetFilter={resetFilter}
               />
               <h4>{TABLE_KEY_TO_LABEL[TABLE_KEYS.REVENUE]}</h4>
-              <h1>${formatNumber(aggregatedValue, "float")}</h1>
+              <h1>${shortenNumber(aggregatedValue)}</h1>
             </HeaderContainer>
           );
         },
@@ -465,7 +479,7 @@ const ReportsTable = (props) => {
           if (tableFilters?.[TABLE_KEYS.FILL_RATE] == null) return true;
           var { min, max } = tableFilters[TABLE_KEYS.FILL_RATE];
           var fillRate = getPercentage(record[TABLE_KEYS.REQUESTS], record[TABLE_KEYS.RESPONSES]);
-          return isValueWithinRange(min, max, parseFloat(fillRate).toFixed(2), "float");
+          return isValueWithinRange(min, max, (parseFloat(fillRate) || 0).toFixed(2), "float");
         },
         sorter: (record1, record2) =>
           isLess(
@@ -479,17 +493,21 @@ const ReportsTable = (props) => {
             "float"
           ) + "%",
         renderHeader: (filteredRecords, records) => {
-          var aggregatedValue = filteredRecords
-            .map((record) =>
-              getPercentage(record[TABLE_KEYS.REQUESTS], record[TABLE_KEYS.RESPONSES])
-            )
-            .reduce((acc, curr) => acc + curr, 0);
+          var aggregateRequests = filteredRecords.reduce(
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.REQUESTS]) || 0),
+            0
+          );
+          var aggregateResponses = filteredRecords.reduce(
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.RESPONSES]) || 0),
+            0
+          );
+          var aggregatedValue = getPercentage(aggregateRequests, aggregateResponses);
           var minValue = records
             .map((record) =>
               getPercentage(record[TABLE_KEYS.REQUESTS], record[TABLE_KEYS.RESPONSES])
             )
-            .reduce((acc, curr) => Math.min(acc, curr), Infinity)
-            .toFixed(2);
+            .reduce((acc, curr) => Math.min(acc, curr), Infinity);
+          minValue = isFinite(minValue) ? minValue.toFixed(2) : 0;
           var maxValue = records
             .map((record) =>
               getPercentage(record[TABLE_KEYS.REQUESTS], record[TABLE_KEYS.RESPONSES])
@@ -539,7 +557,7 @@ const ReportsTable = (props) => {
           if (tableFilters?.[TABLE_KEYS.CTR] == null) return true;
           var { min, max } = tableFilters[TABLE_KEYS.CTR];
           var ctr = getPercentage(record[TABLE_KEYS.CLICKS], record[TABLE_KEYS.IMPRESSION]);
-          return isValueWithinRange(min, max, parseFloat(ctr).toFixed(2), "float");
+          return isValueWithinRange(min, max, (parseFloat(ctr) || 0).toFixed(2), "float");
         },
         sorter: (record1, record2) =>
           isLess(
@@ -553,17 +571,21 @@ const ReportsTable = (props) => {
             "float"
           ) + "%",
         renderHeader: (filteredRecords, records) => {
-          var aggregatedValue = filteredRecords
-            .map((record) =>
-              getPercentage(record[TABLE_KEYS.CLICKS], record[TABLE_KEYS.IMPRESSION])
-            )
-            .reduce((acc, curr) => acc + curr, 0);
+          var aggregateClicks = filteredRecords.reduce(
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.CLICKS]) || 0),
+            0
+          );
+          var aggregateImpression = filteredRecords.reduce(
+            (acc, curr) => acc + (parseInt(curr[TABLE_KEYS.IMPRESSION]) || 0),
+            0
+          );
+          var aggregatedValue = getPercentage(aggregateClicks, aggregateImpression);
           var minValue = records
             .map((record) =>
               getPercentage(record[TABLE_KEYS.CLICKS], record[TABLE_KEYS.IMPRESSION])
             )
-            .reduce((acc, curr) => Math.min(acc, curr), Infinity)
-            .toFixed(2);
+            .reduce((acc, curr) => Math.min(acc, curr), Infinity);
+          minValue = isFinite(minValue) ? minValue.toFixed(2) : 0;
           var maxValue = records
             .map((record) =>
               getPercentage(record[TABLE_KEYS.CLICKS], record[TABLE_KEYS.IMPRESSION])
@@ -619,7 +641,11 @@ const ReportsTable = (props) => {
 
   return (
     <TableContainer>
-      <Table dataSource={reportsList} columns={columns} loading={false} />
+      {loadingReports || reportsList?.length > 0 ? (
+        <Table dataSource={reportsList} columns={columns} loading={loadingReports} />
+      ) : (
+        <EmptyCard />
+      )}
     </TableContainer>
   );
 };

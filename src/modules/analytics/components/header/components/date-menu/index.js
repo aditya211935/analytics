@@ -39,7 +39,6 @@ const DateMenu = ({ handleClose }) => {
         <Input
           size="sm"
           type="date"
-          min="2021-06-01"
           max={toDate}
           value={fromDate}
           onChange={(e) => setFromDate(e.target.value)}
@@ -49,7 +48,6 @@ const DateMenu = ({ handleClose }) => {
           size="sm"
           type="date"
           min={fromDate}
-          max="2021-06-30"
           value={toDate}
           onChange={(e) => setToDate(e.target.value)}
         />

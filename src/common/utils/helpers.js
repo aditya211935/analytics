@@ -102,7 +102,7 @@ const shortenNumber = (num) => {
   var number = parseInt(num);
   for (let { value, symbol } of abbrevations) {
     if (number >= value) {
-      number = (number / value).toFixed(2);
+      number = Math.round((number / value) * 100) / 100;
       return `${number}${symbol}`;
     }
   }
@@ -123,7 +123,7 @@ const addDaysToDate = (date, days = 0) => {
 const differenceInDays = (date1, date2) => {
   var diffTime = new Date(date1).setHours(0, 0, 0, 0) - new Date(date2).setHours(0, 0, 0, 0);
   var msInDay = 1000 * 60 * 60 * 24;
-  return Math.ceil(diffTime / msInDay);
+  return Math.ceil(diffTime / msInDay) || 0;
 };
 
 const numberFormatInteger = new Intl.NumberFormat("en-US");
@@ -133,6 +133,7 @@ const numberFormatFloat = new Intl.NumberFormat("en-US", {
 });
 
 const formatNumber = (number, type) => {
+  if (!number) return 0;
   if (type === "integer") {
     return numberFormatInteger.format(number);
   } else {

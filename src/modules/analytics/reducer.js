@@ -6,6 +6,7 @@ import {
   SET_TABLE_POSITION_PROPS,
   SET_ALL_APPS,
   SET_REPORTS,
+  SET_LOADING_REPORTS,
 } from "./action-types";
 import { URL_KEYS, TABLE_KEYS } from "./constants";
 
@@ -18,8 +19,9 @@ var initialState = {
     visible: true,
   })),
   tableFilters: {},
-  reportsList: reportData || [],
-  allAppsList: appData,
+  reportsList: [],
+  allAppsList: [],
+  loadingReports: false,
 };
 
 var initialStateFromUrl = getObjectFromUrl() || {};
@@ -55,6 +57,10 @@ function analyticsReducer(state = initialState, action) {
       return { ...state, tableFilters: action.payload };
     case SET_ALL_APPS:
       return { ...state, allAppsList: action.payload };
+    case SET_REPORTS:
+      return { ...state, reportsList: action.payload };
+    case SET_LOADING_REPORTS:
+      return { ...state, loadingReports: action.payload };
     default:
       return state;
   }
