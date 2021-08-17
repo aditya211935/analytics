@@ -1,6 +1,6 @@
 # Analytics
 
-This project contains an analytics table that supports the specs outlined in the assignment document. I've also implemented a cache for caching recent request, and you can find my comments about it's implementation inside `src/common/utils/request/index.js`
+This project implements an analytics table that supports the specs outlined in the assignment document. I've also implemented a caching layer to cache recent requests, and you can find my comments about its implementation inside `src/common/utils/request/index.js` file.
 
 Link for online demo: https://analytics-murex.vercel.app/
 
