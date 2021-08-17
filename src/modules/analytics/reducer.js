@@ -10,8 +10,6 @@ import {
 } from "./action-types";
 import { URL_KEYS, TABLE_KEYS } from "./constants";
 
-import { reportData, appData } from "./delete-me-data";
-
 var initialState = {
   dateRange: { fromDate: "2021-06-01", toDate: "2021-06-30" },
   tablePositionProps: Object.values(TABLE_KEYS).map((key) => ({

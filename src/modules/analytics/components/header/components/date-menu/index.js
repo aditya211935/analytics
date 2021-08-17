@@ -18,8 +18,8 @@ const DateMenu = ({ handleClose }) => {
   // Unnecessary for now because DateMenu is the
   // only component that can change dateRange
   useEffect(() => {
-    if (initialFromDate !== fromDate) setFromDate(initialFromDate);
-    if (initialToDate !== toDate) setToDate(initialToDate);
+    setFromDate(initialFromDate);
+    setToDate(initialToDate);
   }, [initialFromDate, initialToDate]);
 
   const handleApply = () => {

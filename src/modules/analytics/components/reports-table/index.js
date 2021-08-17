@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Button, Table } from "common/ui";
+import { Table } from "common/ui";
 import { TABLE_KEYS, TABLE_KEY_TO_LABEL } from "modules/analytics/constants";
 import {
   addDaysToDate,

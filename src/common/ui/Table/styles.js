@@ -1,8 +1,5 @@
 import styled from "@emotion/styled";
 
-import { ReactComponent as IconCaretUp } from "common/icons/caret-up.svg";
-import { ReactComponent as IconCaretDown } from "common/icons/caret-down.svg";
-
 const StyledTable = styled.table`
   width: 100%;
   text-align: left;

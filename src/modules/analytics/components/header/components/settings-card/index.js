@@ -23,30 +23,24 @@ const SettingsCard = ({ handleClose }) => {
     setLocalTablePositionProps(initialTablePositionProps);
   }, [initialTablePositionProps]);
 
-  const moveColumn = useCallback(
-    (dragIndex, hoverIndex) => {
-      setLocalTablePositionProps((prevLocalTablePositionProps) => {
-        var newLocalTablePositionProps = [...prevLocalTablePositionProps];
-        const [itemToMove] = newLocalTablePositionProps.splice(dragIndex, 1);
-        newLocalTablePositionProps.splice(hoverIndex, 0, itemToMove);
-        return newLocalTablePositionProps;
-      });
-    },
-    [localTablePositionProps]
-  );
+  const moveColumn = useCallback((dragIndex, hoverIndex) => {
+    setLocalTablePositionProps((prevLocalTablePositionProps) => {
+      var newLocalTablePositionProps = [...prevLocalTablePositionProps];
+      const [itemToMove] = newLocalTablePositionProps.splice(dragIndex, 1);
+      newLocalTablePositionProps.splice(hoverIndex, 0, itemToMove);
+      return newLocalTablePositionProps;
+    });
+  }, []);
 
-  const toggleColumnVisibility = useCallback(
-    (key) => {
-      if ([TABLE_KEYS.DATE, TABLE_KEYS.APP_ID].includes(key)) return;
-      setLocalTablePositionProps((prevLocalTablePositionProps) =>
-        prevLocalTablePositionProps.map((item) => {
-          if (item.key === key) return { ...item, visible: !item.visible };
-          else return item;
-        })
-      );
-    },
-    [localTablePositionProps]
-  );
+  const toggleColumnVisibility = useCallback((key) => {
+    if ([TABLE_KEYS.DATE, TABLE_KEYS.APP_ID].includes(key)) return;
+    setLocalTablePositionProps((prevLocalTablePositionProps) =>
+      prevLocalTablePositionProps.map((item) => {
+        if (item.key === key) return { ...item, visible: !item.visible };
+        else return item;
+      })
+    );
+  }, []);
 
   const handleApply = () => {
     dispatch(setTablePositionProps(localTablePositionProps));

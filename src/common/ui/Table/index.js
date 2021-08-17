@@ -136,7 +136,6 @@ Table.defaultProps = {
   keyProp: "id",
   initialSortColumn: null,
   initialSortDirection: 0,
-  loading: false,
   loadingRows: 3,
 };
 
