@@ -29,9 +29,9 @@ const ReportsTable = (props) => {
     allAppsList: state.analytics.allAppsList,
   }));
 
-  const columns = useMemo(() => {
+  const columnsObject = useMemo(() => {
     const getAppName = (appId) => {
-      return allAppsList.filter((app) => app.app_id === appId)[0]?.app_name || "";
+      return allAppsList.find((app) => app.app_id === appId)?.app_name || "";
     };
     const getPercentage = (num, den) => {
       return (parseFloat(num) / parseFloat(den)) * 100.0;
@@ -131,14 +131,11 @@ const ReportsTable = (props) => {
             filteredRecords.map((record) => record[TABLE_KEYS.APP_ID])
           ).length;
           var selectedAppIdsList = tableFilters?.[TABLE_KEYS.APP_ID] || [];
-          var allAppsObject = Object.fromEntries(
-            allAppsList.map((app) => [app.app_id, app.app_name])
-          );
           var appsList = getDistinctElements(
             records.map((record) => record[TABLE_KEYS.APP_ID])
           ).map((appId) => ({
             appId,
-            appName: allAppsObject[appId],
+            appName: getAppName(appId),
           }));
 
           const saveFilter = (newselectedAppIdsList) => {
@@ -293,7 +290,7 @@ const ReportsTable = (props) => {
         },
         sorter: (record1, record2) =>
           isLess(record1[TABLE_KEYS.IMPRESSION], record2[TABLE_KEYS.IMPRESSION], "integer"),
-        renderCell: (record, index) => formatNumber(record[TABLE_KEYS.IMPRESSION]),
+        renderCell: (record, index) => formatNumber(record[TABLE_KEYS.IMPRESSION], "integer"),
         renderHeader: (filteredRecords, records) => {
           var aggregatedValue = filteredRecords.reduce(
             (acc, curr) => acc + parseInt(curr[TABLE_KEYS.IMPRESSION]),
@@ -614,16 +611,15 @@ const ReportsTable = (props) => {
     };
   }, [tableFilters, allAppsList]);
 
+  const columns = useMemo(() => {
+    return tablePositionProps
+      .filter(({ visible }) => visible)
+      .map(({ key }) => ({ key, ...columnsObject[key] }));
+  }, [columnsObject, tablePositionProps]);
+
   return (
-    <div style={{ overflowX: "auto" }}>
-      <div style={{ minHeight: 450 }}>
-        <Table
-          dataSource={reportsList}
-          columns={columns}
-          columnPosition={tablePositionProps}
-          loading={false}
-        />
-      </div>
+    <div style={{ overflowX: "auto", minHeight: 450 }}>
+      <Table dataSource={reportsList} columns={columns} loading={false} />
     </div>
   );
 };

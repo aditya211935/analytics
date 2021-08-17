@@ -11,7 +11,6 @@ import { ReactComponent as IconCaretDown } from "common/icons/caret-down.svg";
 const Table = ({
   dataSource,
   columns,
-  columnPosition,
   keyProp,
   initialSortColumn,
   initialSortDirection,
@@ -20,17 +19,10 @@ const Table = ({
 }) => {
   const [sortColumn, setSortColumn] = useState(initialSortColumn);
   const [sortDirection, setSortDirection] = useState(initialSortDirection);
-  if (!columnPosition) {
-    columnPosition = Object.keys(columns).map((columnKey) => ({
-      key: columnKey,
-      visible: true,
-    }));
-  }
 
   const processedDataSource = useMemo(() => {
     var filteredDataSource = dataSource.filter((record) => {
-      return Object.keys(columns).reduce((acc, columnKey) => {
-        var column = columns[columnKey];
+      return columns.reduce((acc, column) => {
         if ("onFilter" in column && typeof column["onFilter"] === "function") {
           return acc && column["onFilter"](record);
         } else {
@@ -39,12 +31,9 @@ const Table = ({
       }, true);
     });
 
-    if (
-      sortColumn != null &&
-      sortDirection !== 0 &&
-      typeof columns?.[sortColumn]?.sorter === "function"
-    ) {
-      const sortedDataSource = filteredDataSource.sort(columns[sortColumn].sorter);
+    const sortFunction = columns.find((column) => column.key === sortColumn)?.sorter;
+    if (sortColumn != null && sortDirection !== 0 && typeof sortFunction === "function") {
+      const sortedDataSource = filteredDataSource.sort(sortFunction);
       if (sortDirection == 1) return sortedDataSource;
       else return sortedDataSource.reverse();
     } else {
@@ -61,9 +50,9 @@ const Table = ({
     <StyledTable>
       <thead className="table-header">
         <tr className="table-header-row">
-          {columnPosition.map(({ key, visible }) => {
-            if (!visible) return;
-            const containsSorter = columns[key].sorter != null;
+          {columns.map((column) => {
+            const { key } = column;
+            const containsSorter = column.sorter != null;
             var headerProps = { className: "table-header-cell" };
             var sortIcon = null;
             if (containsSorter) {
@@ -101,7 +90,7 @@ const Table = ({
             }
             return (
               <th key={key} {...headerProps}>
-                {columns[key].renderHeader(processedDataSource, dataSource)}
+                {column.renderHeader(processedDataSource, dataSource)}
                 {containsSorter && sortIcon}
               </th>
             );
@@ -113,10 +102,9 @@ const Table = ({
           ? Array.from(new Array(loadingRows)).map((item, index) => {
               return (
                 <tr key={`loading-row-${index}`} className="table-row">
-                  {columnPosition.map(({ key, visible }) => {
-                    if (!visible) return;
+                  {columns.map((column) => {
                     return (
-                      <td key={key} className="table-cell">
+                      <td key={column.key} className="table-cell">
                         <Skeleton width="100%" height="16px" />
                       </td>
                     );
@@ -127,11 +115,10 @@ const Table = ({
           : processedDataSource.map((record, index) => {
               return (
                 <tr key={record[keyProp]} className="table-row">
-                  {columnPosition.map(({ key, visible }) => {
-                    if (!visible) return;
+                  {columns.map((column) => {
                     return (
-                      <td key={key} className="table-cell">
-                        {columns[key].renderCell(record, index)}
+                      <td key={column.key} className="table-cell">
+                        {column.renderCell(record, index)}
                       </td>
                     );
                   })}
@@ -146,7 +133,6 @@ const Table = ({
 Table.defaultProps = {
   dataSource: [],
   columns: null,
-  columnPosition: null,
   loading: false,
   keyProp: "id",
   initialSortColumn: null,
