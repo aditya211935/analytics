@@ -403,7 +403,12 @@ const ReportsTable = (props) => {
         onFilter: (record, index) => {
           if (tableFilters?.[TABLE_KEYS.REVENUE] == null) return true;
           var { min, max } = tableFilters[TABLE_KEYS.REVENUE];
-          return isValueWithinRange(min, max, record[TABLE_KEYS.REVENUE], "float");
+          return isValueWithinRange(
+            min,
+            max,
+            parseFloat(record[TABLE_KEYS.REVENUE]).toFixed(2),
+            "float"
+          );
         },
         sorter: (record1, record2) =>
           isLess(record1[TABLE_KEYS.REVENUE], record2[TABLE_KEYS.REVENUE], "float"),
@@ -463,7 +468,7 @@ const ReportsTable = (props) => {
           if (tableFilters?.[TABLE_KEYS.FILL_RATE] == null) return true;
           var { min, max } = tableFilters[TABLE_KEYS.FILL_RATE];
           var fillRate = getPercentage(record[TABLE_KEYS.REQUESTS], record[TABLE_KEYS.RESPONSES]);
-          return isValueWithinRange(min, max, fillRate, "float");
+          return isValueWithinRange(min, max, parseFloat(fillRate).toFixed(2), "float");
         },
         sorter: (record1, record2) =>
           isLess(
@@ -537,7 +542,7 @@ const ReportsTable = (props) => {
           if (tableFilters?.[TABLE_KEYS.CTR] == null) return true;
           var { min, max } = tableFilters[TABLE_KEYS.CTR];
           var ctr = getPercentage(record[TABLE_KEYS.CLICKS], record[TABLE_KEYS.IMPRESSION]);
-          return isValueWithinRange(min, max, ctr, "float");
+          return isValueWithinRange(min, max, parseFloat(ctr).toFixed(2), "float");
         },
         sorter: (record1, record2) =>
           isLess(

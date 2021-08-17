@@ -37,22 +37,24 @@ const StyledTable = styled.table`
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: calc(50% - 12px);
+    top: 50%;
+    transform: translateY(-50%);
     right: 16px;
+
+    svg {
+      height: 12px;
+      width: 12px;
+      fill: ${({ theme }) => theme.palette.grey["400"]};
+
+      &.active {
+        fill: ${({ theme }) => theme.palette.primary};
+      }
+    }
+
+    svg ~ svg {
+      margin-top: -2px;
+    }
   }
 `;
 
-const StyledIconCaretUp = styled(IconCaretUp)`
-  height: 12px;
-  width: 12px;
-  fill: ${({ theme, isActive, isHidden }) =>
-    isHidden ? "transparent" : isActive ? theme.palette.primary : theme.palette.grey["400"]};
-`;
-
-const StyledIconCaretDown = styled(IconCaretDown)`
-  height: 12px;
-  width: 12px;
-  fill: ${({ theme, isActive }) => (isActive ? theme.palette.primary : theme.palette.grey["400"])};
-`;
-
-export { StyledTable, StyledIconCaretDown, StyledIconCaretUp };
+export { StyledTable };

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { ButtonContainer, StyledButton } from "./styles";
 
-import { Tooltip } from "common/ui";
+import { Tooltip, Skeleton } from "common/ui";
 import { ReactComponent as IconCalender } from "common/icons/calendar.svg";
 import { ReactComponent as IconSettings } from "common/icons/settings.svg";
 import { formatDate } from "common/utils";

@@ -5,7 +5,13 @@ import { StyledButton, FilterMenuContainer } from "../../styles";
 
 import { ReactComponent as IconFilter } from "common/icons/filter.svg";
 
-const FilterAppTooltipContent = ({ appsList, selectedAppIdsList, saveFilter, resetFilter, handleTooltip }) => {
+const FilterAppTooltipContent = ({
+  appsList,
+  selectedAppIdsList,
+  saveFilter,
+  resetFilter,
+  handleTooltip,
+}) => {
   const [localselectedAppIdsList, setLocalselectedAppIdsList] = useState(selectedAppIdsList || []);
   const [searchValue, setSearchValue] = useState("");
 
@@ -16,7 +22,9 @@ const FilterAppTooltipContent = ({ appsList, selectedAppIdsList, saveFilter, res
   const filteredAppsList = useMemo(() => {
     return appsList.filter(
       (item) =>
-        Object.values(item).filter((value) => value.toLowerCase().includes(searchValue.toLowerCase())).length > 0
+        Object.values(item).filter((value) =>
+          value.toLowerCase().includes(searchValue.toLowerCase())
+        ).length > 0
     );
   }, [appsList, searchValue]);
 
@@ -40,7 +48,13 @@ const FilterAppTooltipContent = ({ appsList, selectedAppIdsList, saveFilter, res
   return (
     <FilterMenuContainer onClick={(e) => e.stopPropagation()}>
       <p className="heading">Select App</p>
-      <Input size="sm" block value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+      <Input
+        size="sm"
+        block
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        placeholder="Search app"
+      />
       <CheckboxContainer>
         {filteredAppsList.map(({ appName, appId }) => (
           <Checkbox

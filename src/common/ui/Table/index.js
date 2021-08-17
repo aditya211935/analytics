@@ -1,10 +1,23 @@
 import React, { useMemo, useState } from "react";
+import Skeleton from "../Skeleton";
 
-import { StyledTable, StyledIconCaretDown, StyledIconCaretUp } from "./styles";
+import { StyledTable } from "./styles";
+
+import { ReactComponent as IconCaretUp } from "common/icons/caret-up.svg";
+import { ReactComponent as IconCaretDown } from "common/icons/caret-down.svg";
 
 // initialSortDirection: 0 for no sort,
 // 1 for up, 2 for down
-const Table = ({ dataSource, columns, columnPosition, loading, keyProp, initialSortColumn, initialSortDirection }) => {
+const Table = ({
+  dataSource,
+  columns,
+  columnPosition,
+  keyProp,
+  initialSortColumn,
+  initialSortDirection,
+  loading,
+  loadingRows,
+}) => {
   const [sortColumn, setSortColumn] = useState(initialSortColumn);
   const [sortDirection, setSortDirection] = useState(initialSortDirection);
   if (!columnPosition) {
@@ -26,7 +39,11 @@ const Table = ({ dataSource, columns, columnPosition, loading, keyProp, initialS
       }, true);
     });
 
-    if (sortColumn != null && sortDirection !== 0 && typeof columns?.[sortColumn]?.sorter === "function") {
+    if (
+      sortColumn != null &&
+      sortDirection !== 0 &&
+      typeof columns?.[sortColumn]?.sorter === "function"
+    ) {
       const sortedDataSource = filteredDataSource.sort(columns[sortColumn].sorter);
       if (sortDirection == 1) return sortedDataSource;
       else return sortedDataSource.reverse();
@@ -62,22 +79,22 @@ const Table = ({ dataSource, columns, columnPosition, loading, keyProp, initialS
               if (sortDirection == 0 || sortColumn != key) {
                 sortIcon = (
                   <div className="sort-icon-container">
-                    <StyledIconCaretUp key="caret-up" />
-                    <StyledIconCaretDown key="caret-down" />
+                    <IconCaretUp key="caret-up" />
+                    <IconCaretDown key="caret-down" />
                   </div>
                 );
               } else if (sortDirection == 1) {
                 sortIcon = (
                   <div className="sort-icon-container">
-                    <StyledIconCaretUp isActive={true} key="caret-up" />
-                    <StyledIconCaretDown key="caret-down" />
+                    <IconCaretUp className="active" key="caret-up" />
+                    <IconCaretDown key="caret-down" />
                   </div>
                 );
               } else if (sortDirection == 2) {
                 sortIcon = (
                   <div className="sort-icon-container">
-                    <StyledIconCaretUp key="caret-up" />
-                    <StyledIconCaretDown isActive={true} key="caret-down" />
+                    <IconCaretUp key="caret-up" />
+                    <IconCaretDown className="active" key="caret-down" />
                   </div>
                 );
               }
@@ -92,20 +109,35 @@ const Table = ({ dataSource, columns, columnPosition, loading, keyProp, initialS
         </tr>
       </thead>
       <tbody className="table-body">
-        {processedDataSource.map((record, index) => {
-          return (
-            <tr key={record[keyProp]} className="table-row">
-              {columnPosition.map(({ key, visible }) => {
-                if (!visible) return;
-                return (
-                  <td key={key} className="table-cell">
-                    {columns[key].renderCell(record, index)}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
+        {loading
+          ? Array.from(new Array(loadingRows)).map((item, index) => {
+              return (
+                <tr key={`loading-row-${index}`} className="table-row">
+                  {columnPosition.map(({ key, visible }) => {
+                    if (!visible) return;
+                    return (
+                      <td key={key} className="table-cell">
+                        <Skeleton width="100%" height="16px" />
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })
+          : processedDataSource.map((record, index) => {
+              return (
+                <tr key={record[keyProp]} className="table-row">
+                  {columnPosition.map(({ key, visible }) => {
+                    if (!visible) return;
+                    return (
+                      <td key={key} className="table-cell">
+                        {columns[key].renderCell(record, index)}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
       </tbody>
     </StyledTable>
   );
@@ -119,6 +151,8 @@ Table.defaultProps = {
   keyProp: "id",
   initialSortColumn: null,
   initialSortDirection: 0,
+  loading: false,
+  loadingRows: 3,
 };
 
 export default Table;

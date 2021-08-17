@@ -9,7 +9,7 @@ import { Button } from "common/ui";
 
 import ColumnTag from "./components/column-tag";
 
-import { TABLE_KEY_TO_LABEL } from "modules/analytics/constants";
+import { TABLE_KEYS, TABLE_KEY_TO_LABEL } from "modules/analytics/constants";
 import { setTablePositionProps } from "modules/analytics/actions";
 
 const SettingsCard = ({ handleClose }) => {
@@ -37,6 +37,7 @@ const SettingsCard = ({ handleClose }) => {
 
   const toggleColumnVisibility = useCallback(
     (key) => {
+      if ([TABLE_KEYS.DATE, TABLE_KEYS.APP_ID].includes(key)) return;
       setLocalTablePositionProps((prevLocalTablePositionProps) =>
         prevLocalTablePositionProps.map((item) => {
           if (item.key === key) return { ...item, visible: !item.visible };

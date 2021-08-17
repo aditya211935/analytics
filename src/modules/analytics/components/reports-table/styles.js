@@ -20,6 +20,14 @@ const HeaderContainer = styled.div`
 
 const FilterMenuContainer = styled.div`
   width: 300px;
+  .heading {
+    font-size: 14px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.palette.black["200"]};
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
   .slider-info {
     display: flex;
     justify-content: space-between;
@@ -41,8 +49,8 @@ const FilterMenuContainer = styled.div`
 
 const StyledButton = styled(Button)`
   svg {
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
     margin: 0;
     fill: ${({ theme }) => theme.palette.grey["500"]};
   }

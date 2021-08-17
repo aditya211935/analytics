@@ -19,8 +19,8 @@ export const TABLE_KEYS = {
 export const TABLE_KEY_TO_LABEL = {
   [TABLE_KEYS.DATE]: "Date",
   [TABLE_KEYS.APP_ID]: "App Name",
-  [TABLE_KEYS.REQUESTS]: "AD Request",
-  [TABLE_KEYS.RESPONSES]: "AD Response",
+  [TABLE_KEYS.REQUESTS]: "Ad Request",
+  [TABLE_KEYS.RESPONSES]: "Ad Response",
   [TABLE_KEYS.IMPRESSION]: "Impression",
   [TABLE_KEYS.CLICKS]: "Clicks",
   [TABLE_KEYS.REVENUE]: "Revenue",
