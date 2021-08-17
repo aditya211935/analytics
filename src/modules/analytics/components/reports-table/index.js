@@ -14,7 +14,7 @@ import {
   isLess,
   isValueWithinRange,
   shortenNumber,
-} from "common/utils";
+} from "common/utils/helpers";
 import { HeaderContainer, TableContainer } from "./styles";
 import { setTableFilters } from "modules/analytics/actions";
 import FilterTooltip from "./components/filter-tooltip";

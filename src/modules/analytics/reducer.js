@@ -1,5 +1,12 @@
-import { getObjectFromUrl } from "common/utils";
-import { RESET_DATE_RANGE, SET_DATE_RANGE, SET_TABLE_FILTERS, SET_TABLE_POSITION_PROPS } from "./action-types";
+import { getObjectFromUrl } from "common/utils/helpers";
+import {
+  RESET_DATE_RANGE,
+  SET_DATE_RANGE,
+  SET_TABLE_FILTERS,
+  SET_TABLE_POSITION_PROPS,
+  SET_ALL_APPS,
+  SET_REPORTS,
+} from "./action-types";
 import { URL_KEYS, TABLE_KEYS } from "./constants";
 
 import { reportData, appData } from "./delete-me-data";
@@ -46,6 +53,8 @@ function analyticsReducer(state = initialState, action) {
       return { ...state, tablePositionProps: action.payload };
     case SET_TABLE_FILTERS:
       return { ...state, tableFilters: action.payload };
+    case SET_ALL_APPS:
+      return { ...state, allAppsList: action.payload };
     default:
       return state;
   }

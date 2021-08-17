@@ -1,5 +1,10 @@
-import { storeObjectInUrl } from "common/utils";
-import { SET_DATE_RANGE, RESET_DATE_RANGE, SET_TABLE_POSITION_PROPS, SET_TABLE_FILTERS } from "./action-types";
+import { storeObjectInUrl } from "common/utils/helpers";
+import {
+  SET_DATE_RANGE,
+  RESET_DATE_RANGE,
+  SET_TABLE_POSITION_PROPS,
+  SET_TABLE_FILTERS,
+} from "./action-types";
 import { URL_KEYS } from "./constants";
 
 const saveAnalyticsStateInUrl = () => async (dispatch, getState) => {
@@ -36,5 +41,15 @@ const setTableFilters = (newTableFilters) => async (dispatch) => {
   dispatch({ type: SET_TABLE_FILTERS, payload: newTableFilters });
   dispatch(saveAnalyticsStateInUrl());
 };
+
+const fetchReports =
+  ({ fromDate, toDate }) =>
+  async (dispatch) => {
+
+  };
+
+const fetchApps = () => async dispatch => {
+
+}
 
 export { setDateRange, resetDateRange, setTablePositionProps, setTableFilters };

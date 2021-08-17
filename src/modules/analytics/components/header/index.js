@@ -6,7 +6,7 @@ import { ButtonContainer, StyledButton } from "./styles";
 import { Tooltip, Skeleton } from "common/ui";
 import { ReactComponent as IconCalender } from "common/icons/calendar.svg";
 import { ReactComponent as IconSettings } from "common/icons/settings.svg";
-import { formatDate } from "common/utils";
+import { formatDate } from "common/utils/helpers";
 
 import DateMenu from "./components/date-menu";
 import SettingsCard from "./components/settings-card";
@@ -29,6 +29,7 @@ const Header = (props) => {
           visible={isDateTooltipOpen}
           placement="bottom-start"
           interactive={true}
+          onClickOutside={handleDateTooltip}
         >
           <StyledButton variant="outline" icon={<IconCalender />} onClick={handleDateTooltip}>
             {formatDate(fromDate, false)} - {formatDate(toDate, true)}
