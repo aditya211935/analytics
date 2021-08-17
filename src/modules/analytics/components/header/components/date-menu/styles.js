@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 const Label = styled.p`
   font-size: 14px;
   color: ${({ theme }) => theme.palette.black["200"]};
+  margin: 0;
   margin-bottom: 8px;
 `;
 
