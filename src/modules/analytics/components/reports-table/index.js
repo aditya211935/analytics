@@ -15,7 +15,7 @@ import {
   isValueWithinRange,
   shortenNumber,
 } from "common/utils";
-import { HeaderContainer } from "./styles";
+import { HeaderContainer, TableContainer } from "./styles";
 import { setTableFilters } from "modules/analytics/actions";
 import FilterTooltip from "./components/filter-tooltip";
 import FilterAppTooltip from "./components/filter-app-tooltip";
@@ -618,9 +618,9 @@ const ReportsTable = (props) => {
   }, [columnsObject, tablePositionProps]);
 
   return (
-    <div style={{ overflowX: "auto", minHeight: 450 }}>
+    <TableContainer>
       <Table dataSource={reportsList} columns={columns} loading={false} />
-    </div>
+    </TableContainer>
   );
 };
 

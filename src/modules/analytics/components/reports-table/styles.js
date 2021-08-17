@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import { Button } from "common/ui";
 
+const TableContainer = styled.div`
+  overflow-x: auto;
+  min-height: 450px;
+`;
+
 const HeaderContainer = styled.div`
   h4 {
     font-size: 14px;
@@ -60,4 +65,4 @@ const StyledButton = styled(Button)`
   }
 `;
 
-export { HeaderContainer, FilterMenuContainer, StyledButton };
+export { HeaderContainer, FilterMenuContainer, StyledButton, TableContainer };
