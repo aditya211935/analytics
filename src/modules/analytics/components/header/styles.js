@@ -7,6 +7,15 @@ const ButtonContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    button ~ button {
+      margin-top: 8px;
+    }
+  }
 `;
 
 const StyledButton = styled(Button)`
