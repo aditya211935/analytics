@@ -1,7 +1,8 @@
 import React from "react";
 
-import { ReactComponent as EmptyBanner } from "common/icons/empty-banner.svg";
 import { StyledEmptyCard } from "./styles";
+
+import { ReactComponent as EmptyBanner } from "common/icons/empty-banner.svg";
 
 const EmptyCard = (props) => {
   return (

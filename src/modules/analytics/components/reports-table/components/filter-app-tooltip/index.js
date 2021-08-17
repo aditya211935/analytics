@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Tooltip, Checkbox, Input } from "common/ui";
+
 import { CheckboxContainer, StyledLabel } from "./styles";
 import { StyledButton, FilterMenuContainer } from "../../styles";
 
+import { Button, Tooltip, Checkbox, Input } from "common/ui";
 import { ReactComponent as IconFilter } from "common/icons/filter.svg";
 
 const FilterAppTooltipContent = ({

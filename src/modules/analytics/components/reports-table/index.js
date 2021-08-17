@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import { HeaderContainer, TableContainer } from "./styles";
+
 import { Table } from "common/ui";
-import { TABLE_KEYS, TABLE_KEY_TO_LABEL } from "modules/analytics/constants";
 import {
   addDaysToDate,
   differenceInDays,
@@ -15,8 +16,10 @@ import {
   isValueWithinRange,
   shortenNumber,
 } from "common/utils/helpers";
-import { HeaderContainer, TableContainer } from "./styles";
+
+import { TABLE_KEYS, TABLE_KEY_TO_LABEL } from "modules/analytics/constants";
 import { setTableFilters } from "modules/analytics/actions";
+
 import FilterTooltip from "./components/filter-tooltip";
 import FilterAppTooltip from "./components/filter-app-tooltip";
 import EmptyCard from "./components/empty-card";

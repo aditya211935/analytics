@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Tooltip, Button } from "common/ui";
+
 import { StyledSlider } from "./styles";
 import { StyledButton, FilterMenuContainer } from "../../styles";
 
+import { Tooltip, Button } from "common/ui";
 import { ReactComponent as IconFilter } from "common/icons/filter.svg";
 
 const FilterTooltipContent = ({

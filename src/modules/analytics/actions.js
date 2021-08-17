@@ -1,5 +1,8 @@
+import { nanoid } from "nanoid";
+
 import { storeObjectInUrl } from "common/utils/helpers";
 import request from "common/utils/request";
+
 import {
   SET_DATE_RANGE,
   RESET_DATE_RANGE,
@@ -9,7 +12,6 @@ import {
   SET_REPORTS,
   SET_ALL_APPS,
 } from "./action-types";
-import { nanoid } from "nanoid";
 import { URL_KEYS } from "./constants";
 
 const saveAnalyticsStateInUrl = () => async (dispatch, getState) => {
